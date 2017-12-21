@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Paul W. Egeler, M.S., GStat" />
+
+<meta name="date" content="2017-12-21" />
+
+<title>Power Calculation for the Cochran-Mantel-Haenszel Test</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Power Calculation for the Cochran-Mantel-Haenszel Test</h1>
+<h4 class="author"><em>Paul W. Egeler, M.S., GStat</em></h4>
+<h4 class="date"><em>2017-12-21</em></h4>
+
+
+
+<div id="calculating-post-hoc-power" class="section level2">
+<h2>Calculating <em>post hoc</em> Power</h2>
+<div id="the-data-set" class="section level3">
+<h3>The Data Set</h3>
+<p>We will use the <code class="sourceCode r">Titanic</code> dataset in the <code class="sourceCode r">datasets</code> package to demonstrate a <em>post hoc</em> power calculation. This dataset is explored in greater detail in the <a href="samplesizeCMH-introduction.html">introductory vignette</a>.</p>
+<p>Let <span class="math inline">\(X\)</span> = sex, <span class="math inline">\(Y\)</span> = survival, and <span class="math inline">\(Z\)</span> = class. Just as was performed in the introductory vignette, we will load the data and then create a set of partial tables stratified at fixed levels of class.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(Titanic, <span class="dt">package =</span> <span class="st">&quot;datasets&quot;</span>)
+partial_tables &lt;-<span class="st"> </span><span class="kw">margin.table</span>(Titanic, <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">1</span>))
+<span class="kw">ftable</span>(partial_tables)</code></pre></div>
+<pre><code>##                 Class 1st 2nd 3rd Crew
+## Sex    Survived                       
+## Male   No             118 154 422  670
+##        Yes             62  25  88  192
+## Female No               4  13 106    3
+##        Yes            141  93  90   20</code></pre>
+</div>
+<div id="the-test-statistic" class="section level3">
+<h3>The Test Statistic</h3>
+<p>Performing a CMH test on the partial tables above shows that there is strong evidence that the common odds ratio is greater than one.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mantelhaen.test</span>(partial_tables)</code></pre></div>
+<pre><code>## 
+##  Mantel-Haenszel chi-squared test with continuity correction
+## 
+## data:  partial_tables
+## Mantel-Haenszel X-squared = 360.33, df = 1, p-value &lt; 2.2e-16
+## alternative hypothesis: true common odds ratio is not equal to 1
+## 95 percent confidence interval:
+##   8.232629 14.185153
+## sample estimates:
+## common odds ratio 
+##          10.80653</code></pre>
+</div>
+<div id="the-power-calculation" class="section level3">
+<h3>The Power Calculation</h3>
+<p>Using the <code class="sourceCode r"><span class="kw">power.cmh.test</span>()</code> function, we may calculate the probability that our rejection of the null hypothesis is a true result.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(samplesizeCMH)
+
+<span class="kw">power.cmh.test</span>(
+  <span class="dt">p1 =</span> <span class="kw">apply</span>(partial_tables, <span class="dv">3</span>, prop.table, <span class="dv">2</span>)[<span class="dv">1</span>,],
+  <span class="dt">p2 =</span> <span class="kw">apply</span>(partial_tables, <span class="dv">3</span>, prop.table, <span class="dv">2</span>)[<span class="dv">3</span>,],
+  <span class="dt">N =</span> <span class="kw">sum</span>(Titanic),
+  <span class="dt">power =</span> <span class="ot">NULL</span>,
+  <span class="dt">s =</span> <span class="kw">apply</span>(partial_tables[,<span class="dv">1</span>,],<span class="dv">2</span>,sum) /<span class="st"> </span><span class="kw">apply</span>(partial_tables,<span class="dv">3</span>,sum),
+  <span class="dt">t =</span> <span class="kw">apply</span>(partial_tables, <span class="dv">3</span>, sum) /<span class="st"> </span><span class="kw">sum</span>(Titanic)
+)</code></pre></div>
+<pre><code>## NOTE: Effect size ('theta') is not consistent between strata.</code></pre>
+<pre><code>## Power and sample size calculation for the Cochran Mantel Haenszel test
+## 
+##                  N = 2201
+##        Effective N = 2201
+## Significance level = 0.05
+##              Power = 1
+##        Alternative = two.sided
+## 
+## Number of subjects per each group:
+## ______________________________________
+## Group   |     1      2      3      4 
+## ======================================
+## Case    |   122    167    528    673 
+## Control |   203    118    178    212 
+## 
+## CALL: 
+## power.cmh.test(p1 = apply(partial_tables, 3, prop.table, 2)[1, 
+##     ], p2 = apply(partial_tables, 3, prop.table, 2)[3, ], N = sum(Titanic), 
+##     power = NULL, s = apply(partial_tables[, 1, ], 2, sum)/apply(partial_tables, 
+##         3, sum), t = apply(partial_tables, 3, sum)/sum(Titanic))</code></pre>
+<p>Perhaps unsurprisingly, the power of this test approaches 100%.</p>
+</div>
+</div>
+<div id="power-and-effect-size-in-a-negative-result" class="section level2">
+<h2>Power and Effect Size in a Negative Result</h2>
+<p>It does not make sense to calculate power in a study when the null hypothesis is not rejected. However, it may be of interest to the researcher to determine the minimum effect size that could be detected, given the sample size of the study and a specified power. We use the example of the Nurses’ Health Study explored by <span class="citation">Munoz and Rosner (1984)</span>. This study looked for a link between oral contraceptives and breast cancer, stratified by age <span class="citation">(Barton et al. 1980; Hennekens et al. 1984)</span>. The data for this illustration has been included in the <code>samplesizeCMH</code> package.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(contraceptives, <span class="dt">package =</span> <span class="st">&quot;samplesizeCMH&quot;</span>)
+<span class="kw">ftable</span>(contraceptives)</code></pre></div>
+<pre><code>##                            Age Group &lt;= 34 35 - 39 40 - 44 45 - 49 50 - 55
+## OC Usage    Disease Status                                                
+## Exposed     Case                        31      57      69      86      30
+##             Control                    363     521     760     725     272
+## Not Exposed Case                        40     107     196     241     132
+##             Control                    327    1146    1914    2503    1370</code></pre>
+<p>Here, as shown in <span class="citation">Hennekens et al. (1984)</span>, the Mantel-Haenszel test shows non-significant results, with the common odds ratio approximately equal to 1.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mantelhaen.test</span>(contraceptives)</code></pre></div>
+<pre><code>## 
+##  Mantel-Haenszel chi-squared test with continuity correction
+## 
+## data:  contraceptives
+## Mantel-Haenszel X-squared = 0.33106, df = 1, p-value = 0.565
+## alternative hypothesis: true common odds ratio is not equal to 1
+## 95 percent confidence interval:
+##  0.902928 1.214722
+## sample estimates:
+## common odds ratio 
+##          1.047285</code></pre>
+<p>The question now is what effect size would be detectable if an effect truly did exist in the data. That is to say, what effect size were we prepared to correctly detect given our data and specified significance level and power? We may vectorize the <code class="sourceCode r"><span class="kw">power.cmh.test</span>()</code> function to test a wide range of effect sizes to see where the effect size crosses over into adequate power.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vpower &lt;-<span class="st"> </span><span class="kw">Vectorize</span>(power.cmh.test, <span class="st">&quot;theta&quot;</span>, <span class="dt">SIMPLIFY =</span> <span class="ot">FALSE</span>)
+
+thetas &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="fl">1.05</span>,<span class="fl">1.5</span>,<span class="fl">0.05</span>)
+
+power_list &lt;-<span class="st"> </span><span class="kw">vpower</span>(
+  <span class="dt">theta =</span> thetas,
+  <span class="dt">p2 =</span> contraceptives[<span class="dv">1</span>,<span class="dv">2</span>,] /<span class="st"> </span><span class="kw">apply</span>(contraceptives[,<span class="dv">2</span>,],<span class="dv">2</span>,sum),
+  <span class="dt">N =</span> <span class="kw">sum</span>(contraceptives),
+  <span class="dt">power =</span> <span class="ot">NULL</span>,
+  <span class="dt">s =</span> <span class="dv">1</span>/<span class="dv">11</span>,
+  <span class="dt">t =</span> <span class="kw">apply</span>(contraceptives, <span class="dv">3</span>, sum) /<span class="st"> </span><span class="kw">sum</span>(contraceptives),
+  <span class="dt">alternative =</span> <span class="st">&quot;greater&quot;</span>
+)
+
+powers &lt;-<span class="st"> </span><span class="kw">sapply</span>(power_list, <span class="st">&quot;[[&quot;</span>, <span class="st">&quot;power&quot;</span>)
+
+<span class="kw">names</span>(powers) &lt;-<span class="st"> </span>thetas
+
+powers</code></pre></div>
+<pre><code>##      1.05       1.1      1.15       1.2      1.25       1.3      1.35 
+## 0.1507626 0.3399285 0.5718383 0.7734926 0.9027666 0.9659347 0.9901502 
+##       1.4      1.45       1.5 
+## 0.9976178 0.9995114 0.9999139</code></pre>
+<p>Using the data above, we may create a power curve.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="dt">y =</span> powers, <span class="dt">x =</span> thetas, <span class="dt">main =</span> <span class="st">&quot;Power curve as a function of effect size&quot;</span>)
+<span class="kw">abline</span>(<span class="dt">h =</span> <span class="fl">0.95</span>, <span class="dt">col =</span> <span class="st">&quot;gold&quot;</span>)
+<span class="kw">abline</span>(<span class="dt">h =</span> <span class="fl">0.90</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)
+<span class="kw">abline</span>(<span class="dt">h =</span> <span class="fl">0.80</span>, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>)
+
+<span class="kw">legend</span>(
+  <span class="st">&quot;bottomright&quot;</span>, 
+  <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;95%&quot;</span>, <span class="st">&quot;90%&quot;</span>, <span class="st">&quot;80%&quot;</span>), 
+  <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;gold&quot;</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>),
+  <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>,
+  <span class="dt">lty =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>),
+  <span class="dt">title =</span> <span class="st">&quot;Power level&quot;</span>
+  )</code></pre></div>
+<p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
+<p>As we can see from above, 90% power would have been achieved if the common odds ratio was estimated to be approximately 1.25.</p>
+</div>
+<div id="references" class="section level2 unnumbered">
+<h2>References</h2>
+<div id="refs" class="references">
+<div id="ref-Barton1980">
+<p>Barton, J., C. Bain, C. H. Hennekens, B. Rosner, C. Belanger, A. Roth, and F. E. Speizer. 1980. “Characteristics of Respondents and Non-Respondents to a Mailed Questionnaire.” <em>American Journal of Public Health</em> 70 (8): 823–25. <a href="http://www.ncbi.nlm.nih.gov/pubmed/7416342" class="uri">http://www.ncbi.nlm.nih.gov/pubmed/7416342</a>.</p>
+</div>
+<div id="ref-Hennekens1984">
+<p>Hennekens, C. H., F. E. Speizer, R. J. Lipnick, B. Rosner, C. Bain, C. Belanger, M. J. Stampfer, W. Willett, and R. Peto. 1984. “A Case-Control Study of Oral Contraceptive Use and Breast Cancer.” <em>Journal of the National Cancer Institute</em> 72 (1): 39–42. <a href="http://www.ncbi.nlm.nih.gov/pubmed/6363789" class="uri">http://www.ncbi.nlm.nih.gov/pubmed/6363789</a>.</p>
+</div>
+<div id="ref-Munoz1984">
+<p>Munoz, A., and B. Rosner. 1984. “Power and Sample Size for a Collection of 2 X 2 Tables.” <em>Biometrics</em> 40 (4). Wiley-Blackwell: 995–1004.</p>
+</div>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
