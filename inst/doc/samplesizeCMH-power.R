@@ -1,12 +1,12 @@
-## ----partial-tables------------------------------------------------------
+## ----partial-tables-----------------------------------------------------------
 data(Titanic, package = "datasets")
 partial_tables <- margin.table(Titanic, c(2,4,1))
 ftable(partial_tables)
 
-## ----mantelhaen----------------------------------------------------------
+## ----mantelhaen---------------------------------------------------------------
 mantelhaen.test(partial_tables)
 
-## ----power---------------------------------------------------------------
+## ----power--------------------------------------------------------------------
 library(samplesizeCMH)
 
 power.cmh.test(
@@ -19,14 +19,14 @@ power.cmh.test(
 )
 
 
-## ----contraceptives-display----------------------------------------------
+## ----contraceptives-display---------------------------------------------------
 data(contraceptives, package = "samplesizeCMH")
 ftable(contraceptives)
 
-## ----contraceptives-mh---------------------------------------------------
+## ----contraceptives-mh--------------------------------------------------------
 mantelhaen.test(contraceptives)
 
-## ----contraceptives-effect.size------------------------------------------
+## ----contraceptives-effect.size-----------------------------------------------
 vpower <- Vectorize(power.cmh.test, "theta", SIMPLIFY = FALSE)
 
 thetas <- seq(1.05,1.5,0.05)
@@ -58,7 +58,7 @@ legend(
   legend = c("95%", "90%", "80%"), 
   col = c("gold", "red", "blue"),
   bty = "n",
-  lty = c(1,1),
+  lty = 1L,
   title = "Power level"
   )
 
